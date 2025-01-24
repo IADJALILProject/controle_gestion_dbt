@@ -1,0 +1,45 @@
+name: "management_control_project"
+version: "1.0.0"
+config-version: 2
+
+# Profil utilisé pour connecter dbt à l'entrepôt de données
+profile: "controle_gestion_dbt"
+
+# Répertoires principaux du projet
+model-paths: ["models"] # Répertoire pour les modèles SQL
+seed-paths: ["seeds"] # Répertoire pour les fichiers seeds
+test-paths: ["tests"] # Répertoire pour les tests SQL
+snapshot-paths: ["snapshots"] # Répertoire pour les snapshots
+macro-paths: ["macros"] # Répertoire pour les macros personnalisées
+
+# Configuration des modèles
+models:
+  management_control_project:
+    staging: # Modèles de staging
+      +schema: staging
+      +materialized: incremental
+    intermediate: # Modèles intermédiaires
+      +schema: intermediate
+      +materialized: incremental
+    marts: # Modèles analytiques finaux
+      management_control: # Sous-dossier "management_control" dans "models/marts"
+        +schema: management_control # Les modèles dans ce dossier iront dans le schéma "management_control"
+        +materialized: incremental
+    OLAP:
+      +materialized: table
+# Configuration des seeds
+seeds:
+  management_control_project:
+    +schema: seeds # Les seeds seront chargés dans le schéma `seeds`
+    +quote_columns: true # Ajoute des guillemets pour les noms de colonnes, utile pour éviter les conflits
+    +enabled: true # Active les seeds (au cas où certains seraient désactivés)
+
+# Configuration des snapshots
+snapshots:
+  management_control_project:
+    +schema: snapshots
+
+# Configuration des tests
+tests:
+  management_control_project:
+    +severity: warn

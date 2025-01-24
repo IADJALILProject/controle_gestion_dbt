@@ -1,0 +1,54 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: public_seeds
+    tables:
+      - name: management_control
+        description: "Données brutes du contrôle de gestion"
+        columns:
+          - name: control_id
+            description: "Identifiant unique du contrôle"
+            tests:
+              - unique
+              - not_null
+          - name: department_id
+            description: "Identifiant du département concerné"
+          - name: control_date
+            description: "Date du contrôle"
+            tests:
+              - not_null
+          - name: expenses
+            description: "Dépenses du département"
+          - name: revenue
+            description: "Revenus du département"
+          - name: status
+            description: "Statut du contrôle"
+            tests:
+              - accepted_values:
+                  values: ["VALIDATED", "PENDING", "FAILED", "CANCELLED"]
+
+models:
+  - name: stg_management_control
+    description: "Nettoyage des données brutes du contrôle de gestion."
+    columns:
+      - name: control_id
+        description: "Identifiant unique du contrôle."
+        tests:
+          - unique
+          - not_null
+      - name: department_id
+        description: "Identifiant du département lié au contrôle."
+      - name: control_date
+        description: "Date du contrôle de gestion."
+        tests:
+          - not_null
+      - name: expenses
+        description: "Montant des dépenses enregistrées."
+      - name: revenue
+        description: "Montant des revenus enregistrés."
+      - name: status
+        description: "Statut du contrôle (VALIDATED, PENDING, etc.)."
+        tests:
+          - accepted_values:
+              values: ["VALIDATED", "PENDING", "CANCELLED", "FAILED"]

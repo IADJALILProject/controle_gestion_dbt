@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: fact_management_control
+    description: "Table de faits contenant les mesures quantitatives pour le contrôle de gestion."
+    path: "OLAP/fact_management_control.sql"
+    columns:
+      - name: department_id
+        description: "Clé étrangère vers la dimension des départements."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_department')
+              field: department_id
+      - name: control_year
+        description: "Année de la date du contrôle."
+      - name: control_month
+        description: "Mois de la date du contrôle."
+      - name: total_expenses
+        description: "Somme totale des dépenses pour le contrôle."
+        tests:
+          - not_null
+      - name: total_revenue
+        description: "Somme totale des revenus pour le contrôle."
+        tests:
+          - not_null
+      - name: total_net_profit
+        description: "Revenu net total (revenu - dépenses)."
+
+  - name: dim_department
+    description: "Dimension des départements, incluant les informations sur chaque département."
+    path: "OLAP/dim_department.sql"
+    columns:
+      - name: department_id
+        description: "Identifiant unique du département."
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_time
+    description: "Dimension temporelle pour l'analyse multidimensionnelle."
+    path: "OLAP/dim_time.sql"
+    columns:
+      - name: calendar_date
+        description: "Date du calendrier."
+        tests:
+          - unique
+          - not_null
+      - name: year
+        description: "Année de la date."
+      - name: month
+        description: "Mois de la date."
+      - name: quarter
+        description: "Trimestre de la date."
+      - name: week
+        description: "Numéro de la semaine de la date."
+      - name: day_name
+        description: "Nom du jour correspondant à la date."
+
+  - name: dim_status
+    description: "Dimension des statuts des contrôles."
+    path: "OLAP/dim_status.sql"
+    columns:
+      - name: status_code
+        description: "Code du statut."
+        tests:
+          - unique
+          - not_null
+      - name: status_description
+        description: "Description en langage naturel du statut."

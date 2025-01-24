@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: int_management_control
+    description: "Enrichissement des données du contrôle de gestion, avec calculs avancés."
+    columns:
+      - name: control_id
+        description: "Identifiant unique du contrôle."
+      - name: department_id
+        description: "Identifiant du département lié au contrôle."
+      - name: control_date
+        description: "Date du contrôle de gestion."
+      - name: expenses
+        description: "Montant des dépenses enregistrées."
+      - name: revenue
+        description: "Montant des revenus enregistrés."
+      - name: net_profit
+        description: "Profit net calculé (revenue - expenses)."
+        tests:
+          - not_null
+      - name: control_year
+        description: "Année du contrôle."
+      - name: control_month
+        description: "Mois du contrôle."

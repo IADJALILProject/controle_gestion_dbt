@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: control_summary
+    description: "Modèle résumé des contrôles de gestion"
+
+  - name: control_growth
+    description: "Analyse de la croissance des contrôles de gestion."
+    columns:
+      - name: control_year
+        description: "Année des contrôles."
+      - name: control_month
+        description: "Mois des contrôles."
+      - name: monthly_net_profit
+        description: "Profit net mensuel."
+        tests:
+          - not_null
+      - name: growth_rate
+        description: "Taux de croissance des profits nets par rapport au mois précédent."

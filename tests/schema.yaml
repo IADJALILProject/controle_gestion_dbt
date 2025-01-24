@@ -1,0 +1,12 @@
+version: 2
+
+tests:
+  - name: duplicate_control_entries
+    description: "Test pour vérifier l'absence de doublons dans les contrôles."
+    sql: >
+      SELECT
+        control_id,
+        COUNT(*)
+      FROM {{ ref('control_summary') }}
+      GROUP BY control_id
+      HAVING COUNT(*) > 1
